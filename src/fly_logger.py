@@ -59,7 +59,7 @@ while True:
     if choose == "":
         break
     choose = int(choose)
-    if isinstance(choose,int) and choose < len(files):
+    if isinstance(choose,int) and choose-1 < len(files):
         chosen.append(choose)
 
 # These are the chosen files to log
@@ -115,14 +115,14 @@ for i, file in enumerate(chosen_files):
 vprint("Output::")
 vprint(logdata)
 
-outfile = '../tmp/flylog.txt'
+outlog = '../tmp/flylog.txt'
 outdir = '../tmp/'
 for i, file in enumerate(chosen_files):
-    shutil.copy(input_folder + file, outdir + file)
-if not os.path.isfile(outfile):
+    shutil.copy(input_folder + file, outdir + '{:05d}'.format(i+1) + ".txt")
+if not os.path.isfile(outlog):
     print("log does not exist")
-    with open(outfile,"a+") as f:
+    with open(outlog,"a+") as f:
          f.write("#File\t\t\t\t#Sex\t#Geno\t#Age\t#Stim\t#Temp\t#Misc\n")
-f=open(outfile,'ab')
+f=open(outlog,'ab')
 np.savetxt(f,logdata,fmt='%s', delimiter='\t')
 f.close()
