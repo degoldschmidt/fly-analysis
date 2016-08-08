@@ -58,7 +58,6 @@ Plotting trajectories
 # Closing previous windows
 plt.close('all')
 
-
 # Setup grid of subplots   
 subp_dim = ceil(sqrt(nfiles))
 vprint(subp_dim, "rows/cols needed")
@@ -72,7 +71,6 @@ pltgrid = GridSpec(subp_dim, subp_dim)
  
 for figindex in range(nfigs):
     plt.figure(figindex+1, figsize=(8, 8))
-
 
     # Loop through each file
     for index1 in range(subp_dim):
