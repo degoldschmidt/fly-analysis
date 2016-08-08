@@ -45,9 +45,8 @@ for file in os.listdir(input_folder):
 files.sort()
 
 """
-First menu (Choose files)
+First menu (File selection)
 """
-
 print("Which files?")
 for i, file in enumerate(files):
     vprint("(", i+1, ")", file)
@@ -111,10 +110,14 @@ for i, file in enumerate(chosen_files):
     if "%" not in misc:
         misc = input("Misc: ")        
     logdata[i,cat['Misc']] = misc.replace("%", "")
-    
+
+# Console output of logged data    
 vprint("Output::")
 vprint(logdata)
 
+"""
+Writing log data into file (append), copying raw data into tmp folder
+"""
 outlog = '../tmp/flylog.txt'
 outdir = '../tmp/'
 for i, file in enumerate(chosen_files):
