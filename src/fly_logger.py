@@ -110,6 +110,9 @@ for i, file in enumerate(chosen_files):
     if "%" not in misc:
         misc = input("Misc: ")        
     logdata[i,cat['Misc']] = misc.replace("%", "")
+    
+    # FPS 
+    fps = 53.693
 
 # Console output of logged data    
 vprint("Output::")

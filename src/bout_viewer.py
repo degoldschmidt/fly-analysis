@@ -55,7 +55,7 @@ plt.close('all')
 # Subplots
 #plt.figure(figsize=(8, 8))
 dt = 1./60.
-f, axarr = plt.subplots(3, sharex=True)
+f, axarr = plt.subplots(6, sharex=True)
 axarr[0].plot(dt*data[:, spec['Frame']], data[:, spec['X']], 'r-')
 axarr[0].set_ylabel("X [px]")
 #axarr[0].set_title('Sharing X axis')
