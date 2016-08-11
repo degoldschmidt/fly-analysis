@@ -21,7 +21,11 @@ import os
 import shutil
 
 # Put here folder of which data is to be loaded
-input_folder = "/Volumes/Elements/raw_data_flies/0508/WTdl/"
+input_folder = "/Volumes/Elements/raw_data_flies/"
+parser = argparse.ArgumentParser(description='Get file name.')
+parser.add_argument('groupname', nargs=1, help='file name for analysis')
+args = parser.parse_args()
+group = args.groupname[0]
 __VERBOSE = True
 
 # Func to print out only if VERBOSE
@@ -35,11 +39,11 @@ File handling (print out how many files are processed)
 """
 nfiles=0
 files=[]
-for file in os.listdir(input_folder):
+for file in os.listdir(input_folder + group):
     if file.endswith(".txt"):
         nfiles += 1
 vprint(nfiles, "txt-files detected")
-for file in os.listdir(input_folder):
+for file in os.listdir(input_folder + group):
     if file.endswith(".txt"):
         files.append(file)
 files.sort()
@@ -69,14 +73,15 @@ for num in chosen:
 """
 Second menu (Input details)
 """
-cat = {'File':0,'Gender':1,'Genotype':2,'Age':3, 'Stimulus':4, 'Temperature':5, 'Misc':6}
+cat = {'File':0,'Gender':1,'Genotype':2,'Age':3, 'Stimulus':4, 'Temperature':5, 'Misc':6, 'Fps':7, 'Len': 8}
 gender = ""
 geno = ""
 age = ""
 stim = ""
 temp = ""
 misc = ""
-logdata = np.empty((len(chosen_files), 7), dtype='object')
+fpsin = ""
+logdata = np.empty((len(chosen_files), 9), dtype='object')
 for i, file in enumerate(chosen_files):
     vprint("(", i+1, ")", file)
     logdata[i,cat['File']]        = file
@@ -111,8 +116,12 @@ for i, file in enumerate(chosen_files):
         misc = input("Misc: ")        
     logdata[i,cat['Misc']] = misc.replace("%", "")
     
+    if "%" not in fpsin:
+        fpsin = input("Framerate: ")        
+    logdata[i,cat['Fps']] = fpsin.replace("%", "")
+    
     # FPS 
-    fps = 53.693
+    #fps = 53.693
 
 # Console output of logged data    
 vprint("Output::")
@@ -121,14 +130,14 @@ vprint(logdata)
 """
 Writing log data into file (append), copying raw data into tmp folder
 """
-outlog = '../tmp/flylog.txt'
-outdir = '../tmp/'
+outdir = '../tmp/' + group
+outlog = 'flylog.csv'
 for i, file in enumerate(chosen_files):
-    shutil.copy(input_folder + file, outdir + '{:05d}'.format(i+1) + ".txt")
-if not os.path.isfile(outlog):
+    shutil.copy(input_folder + group + file, outdir + '{:05d}'.format(i+1) + ".txt")
+if not os.path.isfile(outdir + outlog):
     print("log does not exist")
-    with open(outlog,"a+") as f:
+    with open(outdir + outlog,"a+") as f:
          f.write("#File\t\t\t\t#Sex\t#Geno\t#Age\t#Stim\t#Temp\t#Misc\n")
-f=open(outlog,'ab')
+f=open(outdir + outlog,'ab')
 np.savetxt(f,logdata,fmt='%s', delimiter='\t')
 f.close()

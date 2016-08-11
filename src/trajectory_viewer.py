@@ -19,7 +19,11 @@ import os
 import shutil
 
 # Put here folder of which data is to be loaded
-input_folder = "/Volumes/Elements/raw_data_flies/0508/WTdl/"
+input_folder = "/Volumes/Elements/raw_data_flies/"
+parser = argparse.ArgumentParser(description='Get file name.')
+parser.add_argument('groupname', nargs=1, help='file name for analysis')
+args = parser.parse_args()
+group = args.groupname[0]
 __VERBOSE = True
 
 # Func to print out only if VERBOSE
@@ -34,11 +38,11 @@ File handling (print out how many files are processed)
 """
 nfiles=0
 files=[]
-for file in os.listdir(input_folder):
+for file in os.listdir(input_folder + group):
     if file.endswith(".txt"):
         nfiles += 1
 vprint(nfiles, "txt-files detected")
-for file in os.listdir(input_folder):
+for file in os.listdir(input_folder + group):
     if file.endswith(".txt"):
         files.append(file)
 files.sort()
@@ -49,7 +53,7 @@ Loading trajectories
 alltraj = []
 for file in files:
     vprint(file)
-    data = np.loadtxt(input_folder+file, usecols=(2,3))
+    data = np.loadtxt(input_folder + group + file, usecols=(2,3), dtype='float')
     alltraj.append(data)
 
 """

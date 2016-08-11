@@ -33,8 +33,8 @@ def vprint(*arg):
 #folder = "/Users/degoldschmidt/"
 #filename = "output.avi"
 
-folder = "/Volumes/Elements/raw_data_flies/0508/WTdl/"
-filename="VidSave_0805_15-18-11.avi" 
+folder = "/Volumes/Elements/raw_data_flies/0727/"
+filename="VidSave_0726_20-13.avi" 
 profolder = "../tmp/vid/"
 
 if not os.path.isfile(profolder + filename):
